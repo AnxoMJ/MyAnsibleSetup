@@ -3,5 +3,9 @@
   hosts: all
   become: true
   tasks:
-     - name: Copy and Execute the script 
+     - name: Update docker images 
        script: ../scripts/updateDockerContainers.sh
+       register: output_shell
+     - name: print output_shell
+       ansible.builtin.debug:
+        var: output_shell
