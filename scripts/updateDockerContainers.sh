@@ -1,24 +1,39 @@
-#!/usr/bin/env bash
-set -e
-BASE_IMAGE="registry"
-REGISTRY="registry.hub.docker.com"
-IMAGE="$REGISTRY/$BASE_IMAGE"
-CID=$(docker ps | grep $IMAGE | awk '{print $1}')
-docker pull $IMAGE
+#!/bin/bash
+#script maker: https://github.com/BrooksPatton/update-all-docker-images.git
+ERROR_FILE="/tmp/docker-images-update.error"
 
-for im in $CID
-do
-    LATEST=`docker inspect --format "{{.Id}}" $IMAGE`
-    RUNNING=`docker inspect --format "{{.Image}}" $im`
-    NAME=`docker inspect --format '{{.Name}}' $im | sed "s/\///g"`
-    echo "Latest:" $LATEST
-    echo "Running:" $RUNNING
-    if [ "$RUNNING" != "$LATEST" ];then
-        echo "upgrading $NAME"
-        stop docker-$NAME
-        docker rm -f $NAME
-        start docker-$NAME
+# make sure that docker is running
+DOCKER_INFO_OUTPUT=$(docker info 2> /dev/null | grep "Containers:" | awk '{print $1}')
+
+if [ "$DOCKER_INFO_OUTPUT" == "Containers:" ]
+  then
+    echo "Docker is running, so we can continue"
+  else
+    echo "Docker is not running, exiting"
+    exit 1
+fi
+
+# get a list of docker images that are currently installed
+IMAGES_WITH_TAGS=$(docker images | grep -v REPOSITORY | grep -v TAG | grep -v "<none>" | awk '{printf("%s:%s\n", $1, $2)}')
+
+# run docker pull on all of the images
+for IMAGE in $IMAGES_WITH_TAGS; do
+  echo "*****"
+  echo "Updating $IMAGE"
+  docker pull $IMAGE 2> $ERROR_FILE
+  if [ $? != 0 ]; then
+    ERROR=$(cat $ERROR_FILE | grep "not found")
+    if [ "$ERROR" != "" ]; then
+      echo "WARNING: Docker image $IMAGE not found in repository, skipping"
     else
-        echo "$NAME up to date"
+      echo "ERROR: docker pull failed on image - $IMAGE"
+      exit 2
     fi
+  fi
+  echo "*****"
+  echo
 done
+
+# did everything finish correctly? Then we can exit
+echo "Docker images are now up to date"
+exit 0
