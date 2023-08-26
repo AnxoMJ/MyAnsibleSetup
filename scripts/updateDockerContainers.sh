@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+whoami
+
 set -e
 BASE_IMAGE="registry"
 REGISTRY="registry.hub.docker.com"
