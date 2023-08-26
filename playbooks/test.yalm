@@ -1,0 +1,8 @@
+---
+- name: Transfer and execute a script.
+  hosts: all
+  tasks:
+     - name: test 
+       package:
+        update_cache: yes
+        

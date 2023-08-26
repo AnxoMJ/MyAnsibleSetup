@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -e
 BASE_IMAGE="registry"
 REGISTRY="registry.hub.docker.com"
