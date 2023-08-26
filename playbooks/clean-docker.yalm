@@ -1,0 +1,11 @@
+---
+- name: Transfer and execute a script.
+  hosts: all
+  become: true
+  tasks:
+     - name: Clean unused docker images and volumes
+       script: ../scripts/cleanDockerImagesAndVolumes.sh
+       register: output_shell
+     - name: print output_shell
+       ansible.builtin.debug:
+        var: output_shell
