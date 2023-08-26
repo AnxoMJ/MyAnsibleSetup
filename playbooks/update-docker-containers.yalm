@@ -4,4 +4,4 @@
   become: true
   tasks:
      - name: Copy and Execute the script 
-       script: ../scripts/updateDockerContainers.sh
+       script: ../scripts/test.sh
