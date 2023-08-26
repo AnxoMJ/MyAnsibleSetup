@@ -1,0 +1,2 @@
+echo whoami
+whoami
