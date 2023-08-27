@@ -7,7 +7,9 @@
         update_cache: yes
         upgrade: yes
      - name: Removes unused packages dependencies
-       ansible.builtin.shell: pacman -Rcs $(pacman -Qdtq) && exit 0
+       ansible.builtin.shell: |
+          pacman -Rcs $(pacman -Qdtq)
+          exit 0
      - name: Reboots if is needed
        script: ../scripts/rebootIfNeeded.sh
        register: output_shell
