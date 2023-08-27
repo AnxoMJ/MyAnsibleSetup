@@ -6,5 +6,5 @@ if [ "$s1" == "$s2" ]; then
   echo OK
 else
   echo rebooting
-  REBOOT
+  reboot
 fi
