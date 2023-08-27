@@ -1,0 +1,18 @@
+---
+- name: Updates all packages
+  hosts: all
+  tasks:
+    - name: Update cache 
+      package:
+      update_cache: yes
+    - name: Update packages 
+      package:
+      upgrade: dist
+    - name: Removes unused packages dependencies
+      ansible.builtin.command: pacman -Rcs $(pacman -Qdtq)
+    - name: Reboots if is needed
+      script: ../scripts/rebootIfNeeded.sh
+      register: output_shell
+    - name: print output_shell
+      ansible.builtin.debug:
+      var: output_shell
