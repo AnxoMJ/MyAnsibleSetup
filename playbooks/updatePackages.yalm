@@ -2,12 +2,10 @@
 - name: Updates all packages
   hosts: all
   tasks:
-     - name: Update cache 
-       package:
+     - name: Update cache and apps
+       pacman:
         update_cache: yes
-     - name: Update packages 
-       package:
-        upgrade: dist
+        upgrade: yes
      - name: Removes unused packages dependencies
        ansible.builtin.command: pacman -Rcs $(pacman -Qdtq)
      - name: Reboots if is needed
