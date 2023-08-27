@@ -10,6 +10,7 @@
        ansible.builtin.shell: |
           pacman -Rcs $(pacman -Qdtq)
           exit 0
+       register: output_shell 
      - name: print output_shell
        ansible.builtin.debug:
         var: output_shell
