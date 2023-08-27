@@ -10,9 +10,6 @@
        ansible.builtin.shell: |
           pacman -Rcs $(pacman -Qdtq)
           exit 0
-     - name: Reboots if is needed
-       script: ../scripts/rebootIfNeeded.sh
-       register: output_shell
      - name: print output_shell
        ansible.builtin.debug:
         var: output_shell
