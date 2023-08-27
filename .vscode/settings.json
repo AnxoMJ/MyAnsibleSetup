@@ -1,5 +1,8 @@
 {
     "yaml.schemas": {
-        "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/playbook": "file:///d%3A/ScriptsYProyectos/Github/ansible/MyAnsibleSetup/playbooks/updatePackages.yalm"
+        "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/playbook": [
+            "file:///d%3A/ScriptsYProyectos/Github/ansible/MyAnsibleSetup/playbooks/updatePackages.yalm",
+            "file:///d%3A/ScriptsYProyectos/Github/ansible/MyAnsibleSetup/playbooks/update-docker-containers.yalm"
+        ]
     }
 }
