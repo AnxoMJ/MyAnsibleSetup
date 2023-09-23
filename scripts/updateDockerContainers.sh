@@ -14,7 +14,7 @@ if [ "$DOCKER_INFO_OUTPUT" == "Containers:" ]
 fi
 
 # get a list of docker images that are currently installed
-IMAGES_WITH_TAGS=$(docker images | grep -v REPOSITORY | grep -v TAG | grep -v "<none>" | awk '{printf("%s:%s\n", $1, $2)}')
+IMAGES_WITH_TAGS=$(docker images | grep -v REPOSITORY | grep -v TAG | sed 's/<none>/latest/g' | awk '{printf("%s:%s\n", $1, $2)}')
 
 # run docker pull on all of the images
 for IMAGE in $IMAGES_WITH_TAGS; do
